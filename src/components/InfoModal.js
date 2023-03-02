@@ -32,21 +32,14 @@ function ModalInfo({ flag, close }) {
           <Typography id="modal-modal-title" variant="h6" component="h3">
             A pet token has been set to your wallet
           </Typography>
+          <Box style={{  textAlign: 'center', margin:"1em"}}>
           <Typography id="modal-modal-description" sx={{ mt: 2 }}>
             You must wait up to 1 minute or more depending on the network congestion
           </Typography>
-          {/* <Box
-            component="img"
-            sx={{
-              height: 233,
-              width: 350,
-              maxHeight: { xs: 233, md: 167 },
-              maxWidth: { xs: 350, md: 250 },
-            }}
-            pt={2}
-            alt="image for product"
-            src={ product.image ? product.image : 'https://via.placeholder.com/300/09f/fff.png'}
-          /> */}
+          <Typography style={{color:"red",marginBottom:'2em'}} sx={{ mt: 2 }}>
+          thanks for your contribution!
+          </Typography>
+          </Box>
           <Stack spacing={2} direction="row" justifyContent="flex-end">
             <Button variant="contained" onClick={close} style={{backgroundColor:"#e91e63"}} >Close</Button>
           </Stack>
