@@ -4,7 +4,7 @@ import ModalStyle from '../components/Modal'
 import React, { useState } from 'react';
 import QrReader from 'react-qr-reader';
 import { Grid} from '@material-ui/core';
-import axios from "axios";
+import { useNavigate} from 'react-router-dom'
 
 const URL = 'https://3500-davoweb3-prototipo-b7sb0fg374s.ws-us89.gitpod.io'
 //const URL = 'http://localhost:3500'
@@ -12,38 +12,40 @@ const URL = 'https://3500-davoweb3-prototipo-b7sb0fg374s.ws-us89.gitpod.io'
 function Scan() {
   const [data, setData] = useState('No result');
   const [producto, setProducto] = useState({});
+  let navigate = useNavigate(); 
 
   const [open, setOpen] = useState(false);
   const handleClose = () => {
     postToArduino("0")
+    setOpen(false)
   }
 
   const postToArduino = (option) =>{
-    // const headers = { 
-    //   "Accept": "*/*",
-    //   "Host": "rezy.lat",
-    //   "Accept-Encoding": "gzip, deflate, br"
-    // }
+    const headers = { 
+      'Content-Type': 'text/html',
+    }
     let url = `https://rezy.lat/esp-outputs-action.php?action=output_update&id=1&state=${option}`
-    // fetch(url, { headers }).then(
-    //   (response)=>{
-    //     if(response.status === 200){
-    //       setOpen(false);
-    //     }
-    // }).catch((err)=>{
-    //   console.log(err)
-    // })
-    axios.get(url).then((response) => {
-      if(response.status === 200){
-              setOpen(false);
-            }
+    fetch(url, { headers }).then(
+      (response)=>{
+        if(response.status === 200){     
+          setData("Se encendio el led")
+        }else{
+          setData("Se apago el led")
+        }
     }).catch((err)=>{
       console.log(err)
-    });
+      setOpen(false)
+    })
   }
 
   const handleAccept = () => {
     postToArduino("1")
+    setTimeout(
+      function() {
+        postToArduino("0")
+        setOpen(false)
+        navigate("/step3")
+      }, 2000);
   }
 
   const handleErrorWebCam = (error) => {
@@ -61,7 +63,6 @@ function Scan() {
   const getProduct = (name) =>{
     const headers = { 
       'Content-Type': 'application/json',
-      // 'Access-Control-Allow-Origin': '*'
     }
     fetch(`${URL}/${name}`, { headers })
         .then(response => response.json())
@@ -75,7 +76,6 @@ function Scan() {
     <div className="App">
       <div className="container">
         <label className='title'>Step 1</label>
-        {/* <img src={logo} className="App-logo" alt="logo" /> */}
         <p>
           Scan a selected product listed on www.rezy.com , aim to the camera and wait for the confirmation popup
         </p>

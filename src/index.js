@@ -5,6 +5,7 @@ import './index.css';
 import reportWebVitals from './reportWebVitals';
 import Home from './home/Home';
 import Scan from './scan/Scan';
+import Token from './token/token';
 import { BrowserRouter, Route, Routes } from 'react-router-dom'
 
 
@@ -15,6 +16,7 @@ export default function App() {
         <Route path='/' element={<Home />} ></Route>
         <Route path='/step1' element={<Scan />} ></Route>
         <Route path='/step2' element={<Scan />} ></Route>
+        <Route path='/step3' element={<Token />} ></Route>
       </Routes>
     </BrowserRouter>
   )
